@@ -44,6 +44,14 @@ public class Player : MonoBehaviour
 		}
 	}
 
+	private void OnTriggerEnter(Collider other)
+	{
+		if (other.CompareTag("PickUp"))
+		{
+			other.gameObject.SetActive(false);
+		}
+	}
+
 	private void CameraRotation()
 	{
 		float mouseX = Input.GetAxis("Mouse X")*mouseSensitivity;

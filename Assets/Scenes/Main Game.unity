@@ -157,14 +157,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 11
       objectReference: {fileID: 0}
-    - target: {fileID: 4866716688530950, guid: 49d51296004af2f49bee91b4e0cc4087, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 1.0000005
-      objectReference: {fileID: 0}
-    - target: {fileID: 4866716688530950, guid: 49d51296004af2f49bee91b4e0cc4087, type: 2}
-      propertyPath: m_LocalScale.z
-      value: 1.0000005
-      objectReference: {fileID: 0}
     - target: {fileID: 1161333375736236, guid: 49d51296004af2f49bee91b4e0cc4087, type: 2}
       propertyPath: m_Name
       value: Alcove (4)
