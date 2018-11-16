@@ -25,11 +25,13 @@ public class Door : MonoBehaviour {
 		GameObject theEnemy = Instantiate(Enemy, Enemies.transform);
 		if (isLeftWall)
 		{
-			theEnemy.transform.position = this.transform.position + Vector3.right*1.8f;
+			Vector3 position = new Vector3(transform.position.x+1.8f, 1, transform.position.z);
+			theEnemy.transform.position = position;
 		}
 		else
 		{
-			theEnemy.transform.position = this.transform.position + Vector3.left*1.8f;
+			Vector3 position = new Vector3(transform.position.x-1.8f, 1, transform.position.z);
+			theEnemy.transform.position = position;
 			theEnemy.transform.Rotate(0,180,0);
 		}
 		
