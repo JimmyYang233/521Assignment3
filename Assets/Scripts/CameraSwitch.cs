@@ -15,28 +15,40 @@ public class CameraSwitch : MonoBehaviour
 	public Player player;
 
 	private Boolean view;
+	private bool switchable;
 	
 	// Use this for initialization
 	void Start ()
 	{
 		view = false;
+		switchable = true;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetKeyDown(KeyCode.V))
 		{
-			if (view)
+			if (switchable)
 			{
-				switchToMainCamera();
-			}
-			else
-			{
-				switchToPlayerCamera();
-			}
+				if (view)
+				{
+					switchToMainCamera();
+				}
+				else
+				{
+					switchToPlayerCamera();
+				}
 
-			view = !view;
+				view = !view;
+			}
+			
 		}
+	}
+
+	public void playerDead()
+	{
+		switchToMainCamera();
+		switchable = false;
 	}
 
 	public void switchToMainCamera()

@@ -10,14 +10,19 @@ public class Player : MonoBehaviour
 
 	[SerializeField]private float speed;
 	[SerializeField]private float mouseSensitivity;
+	[SerializeField]private CameraSwitch cameraSwitch;
+	[SerializeField]private Text text;
 	
 	private GameObject camera;
 	private float xAxisClamp;
 	private bool isJumping;
 	private bool isWin;
 	private CharacterController charController;
+	private int collectNumber;
 
 	public bool moveType;
+
+	public string name;
 	// Use this for initialization
 	void Start ()
 	{
@@ -26,6 +31,11 @@ public class Player : MonoBehaviour
 		xAxisClamp = 0;
 		isJumping = false;
 		isWin = false;
+		GameObject[] alcoves = GameObject.FindGameObjectsWithTag("Alcove");
+		int random = Random.Range(0, 10);
+		transform.position = alcoves[random].transform.position;
+		collectNumber = 0;
+		text.text = name + ": " + collectNumber + " collect  Alive";
 	}
 	
 	// Update is called once per frame
@@ -49,6 +59,15 @@ public class Player : MonoBehaviour
 		if (other.CompareTag("PickUp"))
 		{
 			other.gameObject.SetActive(false);
+			collectNumber ++;
+			text.text = name + ": " + collectNumber + " collect  Alive";
+		}
+
+		else if (other.CompareTag("FieldOfView"))
+		{
+			cameraSwitch.playerDead();
+			Destroy(gameObject);
+			text.text = name + ": " + collectNumber + " collect  Dead";
 		}
 	}
 

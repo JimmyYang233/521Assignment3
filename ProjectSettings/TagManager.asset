@@ -7,6 +7,13 @@ TagManager:
   - PickUp
   - Door
   - MiddleBlock
+  - Doors
+  - TopDoor
+  - BottomDoor
+  - TopMiddleBlock
+  - BottomMiddleBlock
+  - Alcove
+  - FieldOfView
   layers:
   - Default
   - TransparentFX

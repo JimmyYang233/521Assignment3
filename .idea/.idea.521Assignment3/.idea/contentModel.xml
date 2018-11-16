@@ -1,23 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="C:\Users\ydn20\.Rider2018.2\system\extResources" t="IncludeRecursive" />
-    <e p="C:\Users\ydn20\.Rider2018.2\system\resharper-host\Local\Transient\ReSharperHost\v182\SolutionCaches\_521Assignment3.407428083.00" t="ExcludeRecursive" />
-    <e p="C:\Users\ydn20\OneDrive\文档\GitHub\521Assignment3" t="IncludeRecursive">
+    <e p="C:\Users\newgeek\.Rider2018.1\system\resharper-host\Local\Transient\ReSharperHost\v12\SolutionCaches\_521Assignment3.-1940292628.00" t="ExcludeRecursive" />
+    <e p="C:\Users\newgeek\Documents\GitHub\521Assignment3" t="IncludeRecursive">
       <e p="521Assignment3.sln" t="IncludeFlat" />
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
         <e p="Scripts" t="Include">
           <e p="CameraSwitch.cs" t="Include" />
+          <e p="Door.cs" t="Include" />
+          <e p="DoorsControl.cs" t="Include" />
           <e p="Enemy.cs" t="Include" />
           <e p="PickUpGenerator.cs" t="Include" />
           <e p="Player.cs" t="Include" />
           <e p="Rotator.cs" t="Include" />
         </e>
       </e>
+      <e p="Library" t="ExcludeRecursive" />
       <e p="obj" t="ExcludeRecursive" />
       <e p="packages" t="ExcludeRecursive" />
-      <e p="Temp\bin" t="ExcludeRecursive" />
+      <e p="Temp" t="ExcludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+      </e>
     </e>
   </component>
 </project>
