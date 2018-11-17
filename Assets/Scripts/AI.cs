@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class AI : MonoBehaviour {
+public class AI : MonoBehaviour, Agent {
 
 	[SerializeField]private Text text;
 	
 	private bool isWin;
-	private int collectNumber;
+	public int collectNumber;
 	private Vector3 destination;
 	UnityEngine.AI.NavMeshAgent agent;
 
 	public string name;
+	public int numOfTeleportTrap;
 	// Use this for initialization
 	void Start ()
 	{
@@ -22,9 +23,8 @@ public class AI : MonoBehaviour {
 		GameObject[] alcoves = GameObject.FindGameObjectsWithTag("Alcove");
 		int random = Random.Range(0, 10);
 		transform.position = alcoves[random].transform.position;
-		findClosestPickUp();
 		collectNumber = 0;
-		text.text = name + ": " + collectNumber + " collect  Alive";
+		text.text = name + ": " + collectNumber + " collect, " + numOfTeleportTrap +" teleports, Alive";
 	}
 	
 	// Update is called once per frame
@@ -33,8 +33,71 @@ public class AI : MonoBehaviour {
 		if (!isWin)
 		{
 			autoMoveToPickUp();
+			findClosestPickUp();
 		}
 	}
+	
+	public void moveToRandomAlcove()
+	{
+		GameObject[] alcoves = GameObject.FindGameObjectsWithTag("Alcove");
+		int random = Random.Range(0, 10);
+		transform.position = alcoves[random].transform.position;
+	}
+
+	public void UseTeleportTrap()
+	{
+		if (numOfTeleportTrap <= 0)
+		{
+			//TO-DO
+		}
+
+		else
+		{
+			GameObject theObject = findClosestObject();
+			if (theObject.CompareTag("Player"))
+			{
+				theObject.GetComponent<Player>().moveToRandomAlcove();
+			}
+			else if (theObject.CompareTag("Enemy"))
+			{
+				theObject.GetComponent<Enemy>().destroyAndRespawn();
+			}
+			numOfTeleportTrap--;
+			text.text = name + ": " + collectNumber + " collect, " + numOfTeleportTrap +" teleports, Alive";
+		}
+	}
+
+	public GameObject findClosestObject()
+	{
+		GameObject[] npcObjects = GameObject.FindGameObjectsWithTag("Enemy");
+		GameObject agent = GameObject.FindGameObjectWithTag("Player");
+		HashSet<GameObject> objects = new HashSet<GameObject>(npcObjects);
+		if (agent != null)
+		{
+			objects.Add(agent);
+		}
+		
+		float shortestDistance = 1000000f;
+		GameObject ans = null;
+
+		foreach (GameObject stuff in objects)
+		{
+			//Debug.Log(pickUp.transform.position);
+			float x = stuff.transform.position.x - this.transform.position.x;
+			float z = stuff.transform.position.z - this.transform.position.z;
+			float distance = Mathf.Sqrt(x * x + z * z);
+			//Debug.Log(pickUp.GetComponent<Rotator>().ID + ", " + distance);
+			if (distance < shortestDistance)
+			{
+				shortestDistance = distance;
+				ans = stuff;
+			}
+		}
+
+		return ans;
+	}
+
+	
 
 	private void OnTriggerEnter(Collider other)
 	{
@@ -42,14 +105,13 @@ public class AI : MonoBehaviour {
 		{
 			other.gameObject.SetActive(false);
 			collectNumber ++;
-			text.text = name + ": " + collectNumber + " collect  Alive";
-			findClosestPickUp();
+			text.text = name + ": " + collectNumber + " collect, " + numOfTeleportTrap +" teleports, Alive";
 		}
 
 		else if (other.CompareTag("FieldOfView"))
 		{
-			Destroy(gameObject);
-			text.text = name + ": " + collectNumber + " collect  Dead";
+			gameObject.SetActive(false);
+			text.text = name + ": " + collectNumber + " collect, " + numOfTeleportTrap +" teleports, Dead";
 		}
 	}
 

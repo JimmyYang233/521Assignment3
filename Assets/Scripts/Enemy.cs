@@ -8,13 +8,13 @@ public class Enemy : MonoBehaviour
 	public int speed;
 
 	private CharacterController charController;
-	
+
+	public bool isTop;
 	
 	
 	// Use this for initialization
 	void Start ()
 	{
-		charController = this.GetComponent<CharacterController>();
 	}
 
 	
@@ -25,77 +25,26 @@ public class Enemy : MonoBehaviour
 
 	void move()
 	{
-		charController.SimpleMove(transform.forward * speed);
+		//charController.SimpleMove(transform.forward * speed);
+		transform.position += transform.forward * speed*Time.deltaTime;
 	}
 	
-	void OnTriggerEnter(Collider other)
-	{
-		if (other.gameObject.CompareTag("TopMiddleBlock"))
-		{
-			int random = Random.Range(0, 3);
-			if (random == 0)
-			{
-				rotate();
-			}
-			else if (random == 1)
-			{
-				destroyAndRespawnFromTop();
-			}
-			else
-			{
-				transform.GetChild(0).gameObject.SetActive(false);
-			}
-		}
-		else if(other.gameObject.CompareTag("BottomMiddleBlock"))
-		{
-			int random = Random.Range(0, 3);
-			if (random == 0)
-			{
-				rotate();
-			}
-			else if (random == 1)
-			{
-				destroyAndRespawnFromBottom();
-			}
-			else
-			{
-				transform.GetChild(0).gameObject.SetActive(false);
-			}
-		}
-		else if (other.gameObject.CompareTag("TopDoor"))
-		{
-			destroyAndRespawnFromTop();
-		}
-		else if (other.gameObject.CompareTag("BottomDoor"))
-		{
-			destroyAndRespawnFromBottom();
-		}
-		else
-		{
-			//Do-Nothing
-		}
-	}
 
-	void OnTriggerExit(Collider other)
-	{
-		transform.GetChild(0).gameObject.SetActive(true);
-	}
-
-	void destroyAndRespawnFromTop()
+	public void destroyAndRespawnFromTop()
 	{
 		DoorsControl doors = GameObject.FindGameObjectWithTag("Doors").GetComponent<DoorsControl>();
 		doors.newEnemyFromTop();
 		Destroy(gameObject);
 	}
 
-	void destroyAndRespawnFromBottom()
+	public void destroyAndRespawnFromBottom()
 	{
 		DoorsControl doors = GameObject.FindGameObjectWithTag("Doors").GetComponent<DoorsControl>();
 		doors.newEnemyFromBottom();
 		Destroy(gameObject);
 	}
 
-	void rotate()
+	public void rotate()
 	{
 		transform.Rotate(0,180,0);
 		/**
@@ -103,5 +52,17 @@ public class Enemy : MonoBehaviour
 		rotation.y+= 180;
 		transform.localRotation = rotation;
 		**/
+	}
+
+	public void destroyAndRespawn()
+	{
+		if (isTop)
+		{
+			destroyAndRespawnFromTop();
+		}
+		else
+		{
+			destroyAndRespawnFromBottom();
+		}
 	}
 }

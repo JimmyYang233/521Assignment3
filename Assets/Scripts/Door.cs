@@ -11,6 +11,8 @@ public class Door : MonoBehaviour {
 	public GameObject Enemies;
 
 	public bool isLeftWall;
+
+	public bool isTop;
 	// Use this for initialization
 	void Start () {
 	}
@@ -20,6 +22,22 @@ public class Door : MonoBehaviour {
 		
 	}
 
+	void OnTriggerEnter(Collider other)
+	{
+		if (gameObject.CompareTag("TopDoor")&&other.CompareTag("Enemy"))
+		{
+			other.gameObject.GetComponent<Enemy>().destroyAndRespawnFromTop();
+		}
+		else if (gameObject.CompareTag("BottomDoor")&&other.CompareTag("Enemy"))
+		{
+			other.gameObject.GetComponent<Enemy>().destroyAndRespawnFromBottom();
+		}
+		else
+		{
+			//Do-Nothing
+		}
+	}
+
 	public void respawnNewEnemy()
 	{
 		GameObject theEnemy = Instantiate(Enemy, Enemies.transform);
@@ -27,12 +45,14 @@ public class Door : MonoBehaviour {
 		{
 			Vector3 position = new Vector3(transform.position.x+1.8f, 1, transform.position.z);
 			theEnemy.transform.position = position;
+			theEnemy.GetComponent<Enemy>().isTop = isTop;
 		}
 		else
 		{
 			Vector3 position = new Vector3(transform.position.x-1.8f, 1, transform.position.z);
 			theEnemy.transform.position = position;
 			theEnemy.transform.Rotate(0,180,0);
+			theEnemy.GetComponent<Enemy>().isTop = isTop;
 		}
 		
 	}
