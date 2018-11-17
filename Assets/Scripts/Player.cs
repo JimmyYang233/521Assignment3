@@ -15,21 +15,20 @@ public class Player : MonoBehaviour
 	
 	private GameObject camera;
 	private float xAxisClamp;
-	private bool isJumping;
 	private bool isWin;
 	private CharacterController charController;
 	private int collectNumber;
-
 	public bool moveType;
 
 	public string name;
+
+	public AI ai;
 	// Use this for initialization
 	void Start ()
 	{
 		camera = transform.GetChild(0).gameObject;
 		charController = gameObject.GetComponent<CharacterController>();
 		xAxisClamp = 0;
-		isJumping = false;
 		isWin = false;
 		GameObject[] alcoves = GameObject.FindGameObjectsWithTag("Alcove");
 		int random = Random.Range(0, 10);
@@ -61,6 +60,7 @@ public class Player : MonoBehaviour
 			other.gameObject.SetActive(false);
 			collectNumber ++;
 			text.text = name + ": " + collectNumber + " collect  Alive";
+			ai.findClosestPickUp();
 		}
 
 		else if (other.CompareTag("FieldOfView"))
@@ -128,6 +128,7 @@ public class Player : MonoBehaviour
 		Vector3 newPosition = Vector3.forward* zAxis * speed+ Vector3.right*xAxis*speed;
 		charController.SimpleMove(newPosition);
 	}
+
 
 
 }

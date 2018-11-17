@@ -11,6 +11,8 @@ public class Rotator : MonoBehaviour
 	private float randomY;
 	private float randomZ;
 
+	public int ID;
+
 	void Start()
 	{
 		randomX = Random.Range(-2f, 2f);
