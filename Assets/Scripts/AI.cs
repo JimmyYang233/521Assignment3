@@ -20,9 +20,7 @@ public class AI : MonoBehaviour, Agent {
 		
 		agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
 		isWin = false;
-		GameObject[] alcoves = GameObject.FindGameObjectsWithTag("Alcove");
-		int random = Random.Range(0, 10);
-		transform.position = alcoves[random].transform.position;
+		moveToRandomAlcove();
 		collectNumber = 0;
 		text.text = name + ": " + collectNumber + " collect, " + numOfTeleportTrap +" teleports, Alive";
 	}
