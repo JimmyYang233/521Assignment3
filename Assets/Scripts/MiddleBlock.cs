@@ -53,11 +53,9 @@ public class MiddleBlock : MonoBehaviour {
 	
 	void OnTriggerExit(Collider other)
 	{
-		Debug.Log("Was here");
 		if (other.gameObject.CompareTag("Enemy"))
 		{
 			other.transform.GetChild(0).gameObject.SetActive(true);
 		}
-		
 	}
 }

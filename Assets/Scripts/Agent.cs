@@ -5,6 +5,6 @@ using UnityEngine;
 public interface Agent{
     void moveToRandomAlcove();
     void UseTeleportTrap();
-    GameObject findClosestObject();
+    GameObject findClosestObject(HashSet<GameObject> objects);
 
 }

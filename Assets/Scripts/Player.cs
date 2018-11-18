@@ -76,7 +76,15 @@ public class Player : MonoBehaviour, Agent
 
 		else
 		{
-			GameObject theObject = findClosestObject();
+			GameObject[] npcObjects = GameObject.FindGameObjectsWithTag("Enemy");
+			GameObject agent = GameObject.FindGameObjectWithTag("AI");
+			HashSet<GameObject> objects = new HashSet<GameObject>(npcObjects);
+			if (agent != null)
+			{
+				objects.Add(agent);
+			}
+
+			GameObject theObject = findClosestObject(objects);
 			if (theObject.CompareTag("AI"))
 			{
 				theObject.GetComponent<AI>().moveToRandomAlcove();
@@ -90,16 +98,11 @@ public class Player : MonoBehaviour, Agent
 		}
 	}
 
-	public GameObject findClosestObject()
+
+
+	public GameObject findClosestObject(HashSet<GameObject> objects)
 	{
-		GameObject[] npcObjects = GameObject.FindGameObjectsWithTag("Enemy");
-		GameObject agent = GameObject.FindGameObjectWithTag("AI");
-		HashSet<GameObject> objects = new HashSet<GameObject>(npcObjects);
-		if (agent != null)
-		{
-			objects.Add(agent);
-		}
-		
+
 		float shortestDistance = 1000000f;
 		GameObject ans = null;
 
