@@ -6,7 +6,7 @@ public class DoorsControl : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		//newEnemyFromTop();
+		newEnemyFromTop();
 		//newEnemyFromBottom();
 	}
 	

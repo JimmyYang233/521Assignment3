@@ -29,18 +29,22 @@ public class AI : MonoBehaviour, Agent {
 	
 	// Update is called once per frame
 	void FixedUpdate ()
-	{/**
+	{
 		if (!isWin)
 		{
 			autoMove();
 			AInextDecision();
 		}
-		**/
+		
 		//Test
-		GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-		GameObject closestEnemy = findClosestObject(new HashSet<GameObject>(enemies));
+		//GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+		//GameObject closestEnemy = findClosestObject(new HashSet<GameObject>(enemies));
+		//GameObject[] pickUps = GameObject.FindGameObjectsWithTag("PickUp");
+		//GameObject closestPickUp = findClosestObject(new HashSet<GameObject>(pickUps));
 		//Debug.Log(isTooClose(closestEnemy));
-		Debug.Log(isTowardMe(closestEnemy));
+		//Debug.Log(isTowardMe(closestEnemy));
+		//Debug.Log(hasPickUpInAlcove());
+		//Debug.Log(cannotTakeThatPickUp(closestPickUp, closestEnemy));
 	}
 	
 	public void moveToRandomAlcove()
@@ -133,26 +137,27 @@ public class AI : MonoBehaviour, Agent {
 		GameObject enemy = findClosestObject(new HashSet<GameObject>(enemies));
 		if (inAlcove())
 		{
-			
-			if (isTooClose(enemy)&&!hasPickUpInAlcove())
+
+			if (hasPickUpInAlcove())
+			{
+				moveToNextPickUp();
+			}
+			else if (isTooClose(enemy) && isTowardMe(enemy))
 			{
 				wait();
 			}
 			else
 			{
-				GameObject[] pickUps = GameObject.FindGameObjectsWithTag("PickUp");
-				findbestPickUp(new HashSet<GameObject>(pickUps), enemy);
+				moveToBestPickUp(enemy);
 			}
 		}
 		else
 		{
-			/**
-			GameObject[] pickUps = GameObject.FindGameObjectsWithTag("PickUp");
-			findbestPickUp(new HashSet<GameObject>(pickUps), enemy);
-			**/
+			moveToBestPickUp(enemy);
 		}
 		
 	}
+	
 	//tested
 	bool isTooClose(GameObject enemy)
 	{
@@ -166,8 +171,11 @@ public class AI : MonoBehaviour, Agent {
 		}
 	}
 
+	//tested
 	bool isTowardMe(GameObject enemy)
 	{
+		//Debug.Log(enemy.transform.position.x + ", " + transform.position.x);
+		//Debug.Log(enemy.transform.rotation);
 		if (((enemy.transform.position.x - transform.position.x) > -1)&&(enemy.transform.rotation.w < 0f))
 		{
 			return true;
@@ -180,6 +188,7 @@ public class AI : MonoBehaviour, Agent {
 		return false;
 	}
 
+	//tested
 	bool inAlcove()
 	{
 		if (transform.position.z >= 16.4 || transform.position.z <= -16.4)
@@ -190,6 +199,7 @@ public class AI : MonoBehaviour, Agent {
 		return false;
 	}
 
+	//tested
 	bool hasPickUpInAlcove()
 	{
 		GameObject[] alcoves = GameObject.FindGameObjectsWithTag("PickUp");
@@ -197,6 +207,21 @@ public class AI : MonoBehaviour, Agent {
 		if (Math.Abs(closestOne.transform.position.x - this.transform.position.x) <= 5)
 		{
 			return true;
+		}
+
+		return false;
+	}
+
+	bool cannotTakeThatPickUp(GameObject pickUp, GameObject enemy)
+	{
+		if (isTowardMe(enemy))
+		{
+			float pickUpEnemyDistance = Math.Abs(pickUp.transform.position.x - enemy.transform.position.x);
+			float aiEnemyDistance = Math.Abs(transform.position.x - enemy.transform.position.x);
+			if ((pickUpEnemyDistance < aiEnemyDistance))
+			{
+				return true;
+			}
 		}
 
 		return false;
@@ -221,12 +246,18 @@ public class AI : MonoBehaviour, Agent {
 		}
 	}
 
+	void moveToBestPickUp(GameObject enemy)
+	{
+		GameObject[] pickUps = GameObject.FindGameObjectsWithTag("PickUp");
+		HashSet<GameObject> ApickUps = new HashSet<GameObject>(pickUps);
+		destination = findbestPickUp(ApickUps, enemy).transform.position;
+	}
+
 	GameObject findbestPickUp(HashSet<GameObject> pickUps, GameObject enemy)
 	{
 		GameObject pickUp = findClosestObject(new HashSet<GameObject>(pickUps));
-		float pickUpEnemyDistance = Math.Abs(pickUp.transform.position.x - enemy.transform.position.x);
-		float aiEnemyDistance = Math.Abs(transform.position.x - enemy.transform.position.x);
-		if ((pickUpEnemyDistance < aiEnemyDistance)&&(isTowardMe(enemy)))
+		
+		if (cannotTakeThatPickUp(pickUp, enemy))
 		{
 			pickUps.Remove(pickUp);
 			pickUp =  findbestPickUp(pickUps, enemy);
