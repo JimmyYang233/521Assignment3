@@ -481,8 +481,8 @@ public class AI : MonoBehaviour, Agent {
 			return false;
 		}
 		float x = player.transform.position.x - transform.position.x;
-		float y = player.transform.position.y - transform.position.y;
-		float distance = (float)Math.Sqrt(x * x + y * y);
+		float z = player.transform.position.z - transform.position.z;
+		float distance = (float)Math.Sqrt(x * x + z * z);
 		if (distance <= 4)
 		{
 			return true;
