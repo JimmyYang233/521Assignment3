@@ -25,6 +25,10 @@ public class WinnerChecker : MonoBehaviour
 		{
 			player.isWin = true;
 			ai.isWin = true;
+			foreach (GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy"))
+			{
+				enemy.GetComponent<Enemy>().isWin = true;
+			}
 			int playerCollect = player.collectNumber;
 			int aiCollect = ai.collectNumber;
 			if (playerCollect > aiCollect)

@@ -17,7 +17,7 @@ public class MiddleBlock : MonoBehaviour {
 	void OnTriggerEnter(Collider other)
 	{
 		
-		if (gameObject.CompareTag("TopMiddleBlock")&&other.gameObject.CompareTag("Enemy"))
+		if (other.gameObject.CompareTag("Enemy"))
 		{
 			int random = Random.Range(0, 3);
 			if (random == 0)
@@ -26,28 +26,16 @@ public class MiddleBlock : MonoBehaviour {
 			}
 			else if (random == 1)
 			{
-				other.GetComponent<Enemy>().destroyAndRespawnFromTop();
+				other.GetComponent<Enemy>().destroyAndRespawn();
 			}
 			else
 			{
 				other.transform.GetChild(0).gameObject.SetActive(false);
 			}
 		}
-		else if(gameObject.CompareTag("BottomMiddleBlock")&&other.gameObject.CompareTag("Enemy"))
+		else
 		{
-			int random = Random.Range(0, 3);
-			if (random == 0)
-			{
-				other.GetComponent<Enemy>().rotate();
-			}
-			else if (random == 1)
-			{
-				other.GetComponent<Enemy>().destroyAndRespawnFromBottom();
-			}
-			else
-			{
-				other.transform.GetChild(0).gameObject.SetActive(false);
-			}
+			//Do-nothing
 		}
 	}
 	

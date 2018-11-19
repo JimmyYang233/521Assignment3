@@ -8,6 +8,7 @@ using Random = UnityEngine.Random;
 public class AI : MonoBehaviour, Agent {
 
 	[SerializeField]private Text text;
+	[SerializeField]private Text message;
 	
 	public bool isWin;
 	public int collectNumber;
@@ -34,6 +35,11 @@ public class AI : MonoBehaviour, Agent {
 		{
 			autoMove();
 			AInextDecision();
+		}
+		else
+		{
+			destination = transform.position;
+			autoMove();
 		}
 		
 		//Test
@@ -81,7 +87,7 @@ public class AI : MonoBehaviour, Agent {
 			}
 			numOfTeleportTrap--;
 			text.text = name + ": " + collectNumber + " collect, " + numOfTeleportTrap +" teleports, Alive";
-			message
+			message.text = name + " uses teleport trap number " + (2-numOfTeleportTrap) + ". ";
 		}
 	}
 
@@ -134,58 +140,87 @@ public class AI : MonoBehaviour, Agent {
 
 	void AInextDecision()
 	{
+		String message = "";
 		GameObject enemy = getClosestEnemy();
-		if (isWayTooClose(enemy))
+		if (playerCloseToMe()&&numOfTeleportTrap>0)
 		{
 			UseTeleportTrap();
 		}
-		if (noMorePickUpsOnMySide())
+		if (inSafeSpot())
 		{
-			
-			GameObject middlePoint = findClosestMiddlePoint();
-			Vector3 position;
-			if (isOnTop())
+			message += "In safe spot, ";
+			if (hasPickUpInAlcove())
 			{
-				position = new Vector3(middlePoint.transform.position.x, middlePoint.transform.position.y, transform.position.z-0.8f);
+				message += "has pickup in alcove, ";
+				moveToNextPickUp();
+			}
+			else if (isTooClose(enemy))
+			{
+				message += "too close to enemy, ";
+				wait();
 			}
 			else
 			{
-				position = new Vector3(middlePoint.transform.position.x, middlePoint.transform.position.y, transform.position.z+0.8f);
+				message += "moving out, ";
+				if (noMorePickUpsOnMySide())
+				{
+					message += "no more pick ups on my side";
+					moveToClosestMiddlePoint();
+				}
+				else
+				{
+					message += "go to next pickUp";
+					moveToNextPickUp();
+				}
 			}
-
-			destination = position;
 		}
 		else
 		{
-			if (inSafeSpot())
+			message += "Not in safe spot, ";
+			if (isWayTooClose(enemy))
 			{
-				if (hasPickUpInAlcove())
-				{
-					moveToNextPickUp();
-				}
-				else if (isTooClose(enemy))
-				{
-					wait();
-				}
-				else
-				{
-					moveToNextPickUp();
-				}
+				message += "enemy way too close to me, ";
+				UseTeleportTrap();
+			}
+			else if (isTooClose(enemy))
+			{
+				message += "enemy too close to me, ";
+				moveToClosestAlcove(enemy);				
 			}
 			else
 			{
-				if (isTooClose(enemy))
+				message += "no enemy close to me, ";
+				if (noMorePickUpsOnMySide())
 				{
-					moveToClosestAlcove(enemy);				
+					message += "no more pick ups on my side";
+					moveToClosestMiddlePoint();
+
 				}
 				else
 				{
+					message += "go to next pickUp";
 					moveToNextPickUp();
 				}
 			}
-		}	
+		}
+		Debug.Log(message);
 	}
 
+	void moveToClosestMiddlePoint()
+	{
+		GameObject middlePoint = findClosestMiddlePoint();
+		Vector3 position;
+		if (isOnTop())
+		{
+			position = new Vector3(middlePoint.transform.position.x, middlePoint.transform.position.y, transform.position.z-0.8f);
+		}
+		else
+		{
+			position = new Vector3(middlePoint.transform.position.x, middlePoint.transform.position.y, transform.position.z+0.8f);
+		}
+
+		destination = position;
+	}
 	GameObject findClosestMiddlePoint()
 	{
 		GameObject[] middlePoints = GameObject.FindGameObjectsWithTag("MiddlePoint");
@@ -232,11 +267,11 @@ public class AI : MonoBehaviour, Agent {
 
 	bool isWayTooClose(GameObject enemy)
 	{
-		if (isTowardMe(enemy) && Math.Abs(enemy.transform.position.x - transform.position.x) <= 8f)
+		if (isTowardMe(enemy) && Math.Abs(enemy.transform.position.x - transform.position.x) <= 8.5f)
 		{
 			return true;
 		}
-		else if (!isTowardMe(enemy)&&Math.Abs(enemy.transform.position.x - transform.position.x) <= 1.5f)
+		else if (!isTowardMe(enemy)&&Math.Abs(enemy.transform.position.x - transform.position.x) <= 2f)
 		{
 			return true;
 		}
@@ -297,9 +332,9 @@ public class AI : MonoBehaviour, Agent {
 	//tested
 	bool hasPickUpInAlcove()
 	{
-		GameObject[] pickUp = GameObject.FindGameObjectsWithTag("PickUp");
-		GameObject closestOne = findClosestObject(new HashSet<GameObject>(pickUp));
-		if (Math.Abs(closestOne.transform.position.x - this.transform.position.x) <= 5)
+		HashSet<GameObject> pickUps = isOnTop() ? getPickUpsAtTop() : getPickUpsAtBottom();
+		GameObject closestOne = findClosestObject(pickUps);
+		if (closestOne!=null&&Math.Abs(closestOne.transform.position.x - this.transform.position.x) <= 5)
 		{
 			return true;
 		}
@@ -436,6 +471,24 @@ public class AI : MonoBehaviour, Agent {
 		}
 
 		return null;
+	}
+
+	bool playerCloseToMe()
+	{
+		GameObject player = GameObject.FindGameObjectWithTag("Player");
+		if (player == null)
+		{
+			return false;
+		}
+		float x = player.transform.position.x - transform.position.x;
+		float y = player.transform.position.y - transform.position.y;
+		float distance = (float)Math.Sqrt(x * x + y * y);
+		if (distance <= 4)
+		{
+			return true;
+		}
+
+		return false;
 	}
 
 }

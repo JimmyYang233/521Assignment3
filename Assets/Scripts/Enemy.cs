@@ -6,7 +6,8 @@ public class Enemy : MonoBehaviour
 {
 
 	public int speed;
-
+	public bool isWin;
+	
 	private CharacterController charController;
 
 	public bool isTop;
@@ -15,12 +16,16 @@ public class Enemy : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
+		isWin = false;
 	}
 
 	
 	// Update is called once per frame
 	void Update () {
-		move();
+		if (!isWin)
+		{
+			move();
+		}	
 	}
 
 	void move()

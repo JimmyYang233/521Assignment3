@@ -24,13 +24,9 @@ public class Door : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other)
 	{
-		if (gameObject.CompareTag("TopDoor")&&other.CompareTag("Enemy"))
+		if (other.CompareTag("Enemy"))
 		{
-			other.gameObject.GetComponent<Enemy>().destroyAndRespawnFromTop();
-		}
-		else if (gameObject.CompareTag("BottomDoor")&&other.CompareTag("Enemy"))
-		{
-			other.gameObject.GetComponent<Enemy>().destroyAndRespawnFromBottom();
+			other.gameObject.GetComponent<Enemy>().destroyAndRespawn();
 		}
 		else
 		{
