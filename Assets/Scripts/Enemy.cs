@@ -26,7 +26,7 @@ public class Enemy : MonoBehaviour
 	void move()
 	{
 		//charController.SimpleMove(transform.forward * speed);
-		transform.position += transform.forward * speed*Time.deltaTime;
+		//transform.position += transform.forward * speed*Time.deltaTime;
 	}
 	
 

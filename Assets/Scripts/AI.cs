@@ -22,19 +22,25 @@ public class AI : MonoBehaviour, Agent {
 		
 		agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
 		isWin = false;
-		moveToRandomAlcove();
+		//moveToRandomAlcove();
 		collectNumber = 0;
 		text.text = name + ": " + collectNumber + " collect, " + numOfTeleportTrap +" teleports, Alive";
 	}
 	
 	// Update is called once per frame
 	void FixedUpdate ()
-	{
+	{/**
 		if (!isWin)
 		{
 			autoMove();
 			AInextDecision();
 		}
+		**/
+		//Test
+		GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+		GameObject closestEnemy = findClosestObject(new HashSet<GameObject>(enemies));
+		//Debug.Log(isTooClose(closestEnemy));
+		Debug.Log(isTowardMe(closestEnemy));
 	}
 	
 	public void moveToRandomAlcove()
@@ -147,10 +153,10 @@ public class AI : MonoBehaviour, Agent {
 		}
 		
 	}
-
+	//tested
 	bool isTooClose(GameObject enemy)
 	{
-		if (Math.Abs(enemy.transform.position.x - transform.position.x) <= 8.5)
+		if (Math.Abs(enemy.transform.position.x - transform.position.x) <= 10)
 		{
 			return true;
 		}
