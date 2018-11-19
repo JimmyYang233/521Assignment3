@@ -7,7 +7,7 @@ public class DoorsControl : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		newEnemyFromTop();
-		//newEnemyFromBottom();
+		newEnemyFromBottom();
 	}
 	
 	// Update is called once per frame

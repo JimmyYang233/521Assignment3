@@ -17,6 +17,7 @@ TagManager:
   - Agent
   - Enemy
   - AI
+  - MiddlePoint
   layers:
   - Default
   - TransparentFX

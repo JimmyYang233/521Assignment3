@@ -24,6 +24,7 @@ public class WinnerChecker : MonoBehaviour
 		    (GameObject.FindGameObjectsWithTag("PickUp").Length == 0))
 		{
 			player.isWin = true;
+			ai.isWin = true;
 			int playerCollect = player.collectNumber;
 			int aiCollect = ai.collectNumber;
 			if (playerCollect > aiCollect)
