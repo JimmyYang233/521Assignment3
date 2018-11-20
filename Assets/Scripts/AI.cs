@@ -316,12 +316,12 @@ public class AI : MonoBehaviour, Agent {
 	//tested
 	bool inSafeSpot()
 	{
-		if (transform.position.z >= 17 || transform.position.z <= -17)
+		if (transform.position.z >= 16.25f || transform.position.z <= -16.25f)
 		{
 			return true;
 		}
 		
-		else if (transform.position.z <= 1.5 && transform.position.z >= -1.5)
+		else if (transform.position.z <= 1.5f && transform.position.z >= -1.5f)
 		{
 			return true;
 		}
@@ -334,7 +334,7 @@ public class AI : MonoBehaviour, Agent {
 	{
 		HashSet<GameObject> pickUps = isOnTop() ? getPickUpsAtTop() : getPickUpsAtBottom();
 		GameObject closestOne = findClosestObject(pickUps);
-		if (closestOne!=null&&Math.Abs(closestOne.transform.position.x - this.transform.position.x) <= 5)
+		if (closestOne!=null&&Math.Abs(closestOne.transform.position.x - this.transform.position.x) <= 5f)
 		{
 			return true;
 		}
