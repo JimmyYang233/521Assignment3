@@ -243,26 +243,22 @@ public class AI : MonoBehaviour, Agent {
 	void moveToClosestAlcove(GameObject enemy)
 	{
 		GameObject[] alcoves = GameObject.FindGameObjectsWithTag("Alcove");
-		if (alcoves.Length == 0)
+		GameObject[] middlePoints = GameObject.FindGameObjectsWithTag("MiddlePoint");
+		HashSet<GameObject> theAlcoves = new HashSet<GameObject>(alcoves);
+		theAlcoves.Add(middlePoints[0]);
+		theAlcoves.Add(middlePoints[1]);
+		GameObject alcove1 = findClosestObject(theAlcoves);
+		theAlcoves.Remove(alcove1);
+		GameObject alcove2 = findClosestObject(theAlcoves);
+		if (cannotTakeThat(alcove1, enemy))
 		{
-			destination = transform.position;
+			destination = alcove2.transform.position;
 		}
 		else
 		{
-			HashSet<GameObject> theAlcoves = new HashSet<GameObject>(alcoves);
-			GameObject alcove1 = findClosestObject(theAlcoves);
-			theAlcoves.Remove(alcove1);
-			GameObject alcove2 = findClosestObject(theAlcoves);
-			if (cannotTakeThat(alcove1, enemy))
-			{
-				destination = alcove2.transform.position;
-			}
-			else
-			{
-				destination = alcove1.transform.position;
-			}
-			
+			destination = alcove1.transform.position;
 		}
+			
 	}
 
 	bool isWayTooClose(GameObject enemy)
