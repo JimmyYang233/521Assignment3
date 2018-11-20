@@ -7,8 +7,9 @@ using Random = UnityEngine.Random;
 
 public class AI : MonoBehaviour, Agent {
 
-	[SerializeField]private Text text;
-	[SerializeField]private Text message;
+	public Text text;
+	public Text message;
+	private Vector3 initialPosition;
 	
 	public bool isWin;
 	public int collectNumber;
@@ -18,16 +19,21 @@ public class AI : MonoBehaviour, Agent {
 	public string name;
 	public int numOfTeleportTrap;
 	// Use this for initialization
-	void Start ()
+	void Awake ()
 	{
-		
+		initialPosition = transform.position;
 		agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
 		isWin = false;
 		moveToRandomAlcove();
+		numOfTeleportTrap = 2;
 		collectNumber = 0;
+		
+	}
+
+	void Start()
+	{
 		text.text = name + ": " + collectNumber + " collect, " + numOfTeleportTrap +" teleports, Alive";
 	}
-	
 	// Update is called once per frame
 	void FixedUpdate ()
 	{
@@ -57,6 +63,7 @@ public class AI : MonoBehaviour, Agent {
 	{
 		GameObject[] alcoves = GameObject.FindGameObjectsWithTag("Alcove");
 		int random = Random.Range(0, 10);
+		transform.position = initialPosition;
 		transform.position = alcoves[random].transform.position;
 	}
 
@@ -263,7 +270,7 @@ public class AI : MonoBehaviour, Agent {
 
 	bool isWayTooClose(GameObject enemy)
 	{
-		if (isTowardMe(enemy) && Math.Abs(enemy.transform.position.x - transform.position.x) <= 8.5f)
+		if (isTowardMe(enemy) && Math.Abs(enemy.transform.position.x - transform.position.x) <= 8.2f)
 		{
 			return true;
 		}

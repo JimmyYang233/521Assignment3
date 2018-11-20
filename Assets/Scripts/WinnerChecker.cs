@@ -20,6 +20,10 @@ public class WinnerChecker : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
+		if (GameObject.FindGameObjectWithTag("AI") != null)
+		{
+			ai = GameObject.FindGameObjectWithTag("AI").GetComponent<AI>();
+		}	
 		if ((player.gameObject.active == false && ai.gameObject.active == false) ||
 		    (GameObject.FindGameObjectsWithTag("PickUp").Length == 0))
 		{

@@ -23,6 +23,8 @@ public class Player : MonoBehaviour, Agent
 	public bool moveType;
 	public int numOfTeleportTrap;
 	public string name;
+
+	public GameObject aiPrefab;
 	// Use this for initialization
 	void Start ()
 	{
@@ -87,7 +89,15 @@ public class Player : MonoBehaviour, Agent
 			GameObject theObject = findClosestObject(objects);
 			if (theObject.CompareTag("AI"))
 			{
-				theObject.GetComponent<AI>().moveToRandomAlcove();
+				AI ai = theObject.GetComponent<AI>();
+				Debug.Log(ai.numOfTeleportTrap + ", " + ai.collectNumber);
+				GameObject newAI = Instantiate(aiPrefab);
+				newAI.GetComponent<AI>().text = ai.text;
+				newAI.GetComponent<AI>().message = ai.message;
+				newAI.GetComponent<AI>().numOfTeleportTrap = ai.numOfTeleportTrap;
+				newAI.GetComponent<AI>().name = ai.name;
+				newAI.GetComponent<AI>().collectNumber = ai.collectNumber;
+				Destroy(theObject);
 			}
 			else if (theObject.CompareTag("Enemy"))
 			{

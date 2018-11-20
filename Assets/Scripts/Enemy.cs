@@ -5,7 +5,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
 
-	public int speed;
+	public float speed;
 	public bool isWin;
 	
 	private CharacterController charController;
