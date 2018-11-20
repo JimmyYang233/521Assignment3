@@ -192,9 +192,29 @@ public class Player : MonoBehaviour, Agent
 
 	private void thirdPersonControl()
 	{
-		float xAxis = Input.GetAxis("Horizontal");
-		float zAxis = Input.GetAxis("Vertical");
-		Vector3 newPosition = Vector3.forward* zAxis * speed+ Vector3.right*xAxis*speed;
+		//float xAxis = Input.GetAxis("Horizontal");
+		//float zAxis = Input.GetAxis("Vertical");
+		//Vector3 newPosition = Vector3.forward* zAxis * speed+ Vector3.right*xAxis*speed;
+		Vector3 newPosition = new Vector3();
+		if (Input.GetKey(KeyCode.W))
+		{
+			newPosition += Vector3.forward * speed;
+		}
+
+		if (Input.GetKey(KeyCode.S))
+		{
+			newPosition += Vector3.back * speed;
+		}
+		
+		if (Input.GetKey(KeyCode.A))
+		{
+			newPosition += Vector3.left * speed;
+		}
+		if (Input.GetKey(KeyCode.D))
+		{
+			newPosition += Vector3.right * speed;
+		}
+
 		charController.SimpleMove(newPosition);
 	}
 
