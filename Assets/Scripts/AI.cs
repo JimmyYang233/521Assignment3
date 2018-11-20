@@ -396,35 +396,6 @@ public class AI : MonoBehaviour, Agent {
 		}
 	}
 
-	void moveToBestPickUp(GameObject enemy)
-	{
-		HashSet<GameObject> pickUps = isOnTop() ? getPickUpsAtTop() : getPickUpsAtBottom();
-
-		GameObject pickUp = findbestPickUp(pickUps, enemy);
-		if (pickUp == null)
-		{
-			destination = transform.position;
-		}
-		else
-		{
-			destination = pickUp.transform.position;
-		}
-		
-		
-	}
-
-	GameObject findbestPickUp(HashSet<GameObject> pickUps, GameObject enemy)
-	{
-		GameObject pickUp = findClosestObject(pickUps);
-
-		if (pickUp!=null&&cannotTakeThat(pickUp, enemy))
-		{
-			pickUps.Remove(pickUp);
-			pickUp =  findbestPickUp(pickUps, enemy);
-		}
-		return pickUp;		
-	}
-
 	HashSet<GameObject> getPickUpsAtTop()
 	{
 		HashSet<GameObject> ans = new HashSet<GameObject>(); 
