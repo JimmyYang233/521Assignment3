@@ -23,6 +23,10 @@ public class WinnerChecker : MonoBehaviour
 		if (GameObject.FindGameObjectWithTag("AI") != null)
 		{
 			ai = GameObject.FindGameObjectWithTag("AI").GetComponent<AI>();
+		}
+		if (GameObject.FindGameObjectWithTag("Player") != null)
+		{
+			player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
 		}	
 		if ((player.gameObject.active == false && ai.gameObject.active == false) ||
 		    (GameObject.FindGameObjectsWithTag("PickUp").Length == 0))

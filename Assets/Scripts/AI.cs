@@ -24,7 +24,7 @@ public class AI : MonoBehaviour, Agent {
 		initialPosition = transform.position;
 		agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
 		isWin = false;
-		moveToRandomAlcove();
+		
 		numOfTeleportTrap = 2;
 		collectNumber = 0;
 		
@@ -32,6 +32,7 @@ public class AI : MonoBehaviour, Agent {
 
 	void Start()
 	{
+		moveToRandomAlcove();
 		text.text = name + ": " + collectNumber + " collect, " + numOfTeleportTrap +" teleports, Alive";
 	}
 	// Update is called once per frame
@@ -86,7 +87,7 @@ public class AI : MonoBehaviour, Agent {
 			GameObject theObject = findClosestObject(objects);
 			if (theObject.CompareTag("Player"))
 			{
-				theObject.GetComponent<Player>().moveToRandomAlcove();
+				transform.parent.gameObject.GetComponent<AgentControl>().teleportPlayer();
 			}
 			else if (theObject.CompareTag("Enemy"))
 			{

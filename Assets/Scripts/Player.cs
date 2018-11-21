@@ -11,9 +11,9 @@ public class Player : MonoBehaviour, Agent
 
 	[SerializeField]private float speed;
 	[SerializeField]private float mouseSensitivity;
-	[SerializeField]private CameraSwitch cameraSwitch;
-	[SerializeField]private Text text;
-	[SerializeField]private Text middleMessage;
+	public CameraSwitch cameraSwitch;
+	public Text text;
+	public Text middleMessage;
 	
 	private GameObject camera;
 	private float xAxisClamp;
@@ -29,6 +29,7 @@ public class Player : MonoBehaviour, Agent
 
 	void Awake()
 	{
+		collectNumber = 0;
 		xAxisClamp = 0;
 		isWin = false;
 		moveType = false;
@@ -40,7 +41,6 @@ public class Player : MonoBehaviour, Agent
 	void Start ()
 	{
 		moveToRandomAlcove();
-		collectNumber = 0;
 		text.text = name + ": " + collectNumber + " collect, " + numOfTeleportTrap +" teleports, Alive";
 	}
 	
@@ -95,15 +95,7 @@ public class Player : MonoBehaviour, Agent
 			GameObject theObject = findClosestObject(objects);
 			if (theObject.CompareTag("AI"))
 			{
-				AI ai = theObject.GetComponent<AI>();
-				Debug.Log(ai.numOfTeleportTrap + ", " + ai.collectNumber);
-				GameObject newAI = Instantiate(aiPrefab);
-				newAI.GetComponent<AI>().text = ai.text;
-				newAI.GetComponent<AI>().message = ai.message;
-				newAI.GetComponent<AI>().numOfTeleportTrap = ai.numOfTeleportTrap;
-				newAI.GetComponent<AI>().name = ai.name;
-				newAI.GetComponent<AI>().collectNumber = ai.collectNumber;
-				Destroy(theObject);
+				transform.parent.gameObject.GetComponent<AgentControl>().teleportAI();
 			}
 			else if (theObject.CompareTag("Enemy"))
 			{
@@ -190,8 +182,8 @@ public class Player : MonoBehaviour, Agent
 
 		Vector3 newPosition = transform.forward * zAxis * speed+ transform.right*xAxis*speed;
 
-		charController.SimpleMove(newPosition);
-		//transform.Translate(newPosition*Time.deltaTime);
+		//charController.SimpleMove(newPosition);
+		transform.Translate(newPosition*Time.deltaTime);
 	}
 
 	private void ClampXAxisRotationToValue(float value)
@@ -233,8 +225,8 @@ public class Player : MonoBehaviour, Agent
 			newPosition += Vector3.right * speed;
 		}
 
-		charController.SimpleMove(newPosition);
-		//transform.Translate(newPosition*Time.deltaTime);
+		//charController.SimpleMove(newPosition);
+		transform.Translate(newPosition*Time.deltaTime);
 		//rb.velocity = newPosition;
 	}
 

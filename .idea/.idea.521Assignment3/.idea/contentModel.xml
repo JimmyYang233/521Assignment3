@@ -8,6 +8,7 @@
       <e p="Assets" t="Include">
         <e p="Scripts" t="Include">
           <e p="Agent.cs" t="Include" />
+          <e p="AgentControl.cs" t="Include" />
           <e p="AI.cs" t="Include" />
           <e p="CameraSwitch.cs" t="Include" />
           <e p="Door.cs" t="Include" />
