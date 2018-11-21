@@ -25,7 +25,14 @@ public class CameraSwitch : MonoBehaviour
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+	{
+		GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+		if (playerObject != null)
+		{
+			playerCamera = playerObject.transform.GetChild(0).gameObject.GetComponent<Camera>();
+			player = playerObject.GetComponent<Player>();
+		}
 		if (Input.GetKeyDown(KeyCode.V))
 		{
 			if (switchable)
