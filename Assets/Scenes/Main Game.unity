@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.43667564, g: 0.48427135, b: 0.5645232, a: 1}
+  m_IndirectSpecularColor: {r: 0.4366757, g: 0.48427194, b: 0.5645252, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1842,23 +1842,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1475857194468168, guid: 49d51296004af2f49bee91b4e0cc4087, type: 2}
-      propertyPath: m_StaticEditorFlags
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 1255668689911094, guid: 49d51296004af2f49bee91b4e0cc4087, type: 2}
-      propertyPath: m_StaticEditorFlags
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 1421942270188842, guid: 49d51296004af2f49bee91b4e0cc4087, type: 2}
-      propertyPath: m_StaticEditorFlags
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 114211514451161782, guid: 49d51296004af2f49bee91b4e0cc4087,
-        type: 2}
-      propertyPath: id
-      value: 3
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 49d51296004af2f49bee91b4e0cc4087, type: 2}
   m_IsPrefabAsset: 0
@@ -3598,7 +3581,7 @@ GameObject:
   - component: {fileID: 1948644516}
   - component: {fileID: 1948644515}
   - component: {fileID: 1948644512}
-  - component: {fileID: 1948644514}
+  - component: {fileID: 1948644513}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -3628,7 +3611,7 @@ MonoBehaviour:
   numOfTeleportTrap: 50
   name: Human
   aiPrefab: {fileID: 1199230096868232, guid: f6999a2ad388b1d4c9e12eb8017cebac, type: 2}
---- !u!143 &1948644514
+--- !u!143 &1948644513
 CharacterController:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

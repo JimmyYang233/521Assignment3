@@ -19,27 +19,33 @@ public class Player : MonoBehaviour, Agent
 	private float xAxisClamp;
 	public bool isWin;
 	private CharacterController charController;
+	private Rigidbody rb;
 	public int collectNumber;
 	public bool moveType;
 	public int numOfTeleportTrap;
 	public string name;
 
 	public GameObject aiPrefab;
-	// Use this for initialization
-	void Start ()
+
+	void Awake()
 	{
-		camera = transform.GetChild(0).gameObject;
-		charController = gameObject.GetComponent<CharacterController>();
 		xAxisClamp = 0;
 		isWin = false;
 		moveType = false;
+		camera = transform.GetChild(0).gameObject;
+		charController = gameObject.GetComponent<CharacterController>();
+		rb = GetComponent<Rigidbody>();
+	}
+	// Use this for initialization
+	void Start ()
+	{
 		moveToRandomAlcove();
 		collectNumber = 0;
 		text.text = name + ": " + collectNumber + " collect, " + numOfTeleportTrap +" teleports, Alive";
 	}
 	
 	// Update is called once per frame
-	void FixedUpdate ()
+	void Update ()
 	{
 		if (!isWin)
 		{
@@ -47,7 +53,7 @@ public class Player : MonoBehaviour, Agent
 			{
 				UseTeleportTrap();
 			}
-			
+
 			if (moveType)
 			{
 				
@@ -185,6 +191,7 @@ public class Player : MonoBehaviour, Agent
 		Vector3 newPosition = transform.forward * zAxis * speed+ transform.right*xAxis*speed;
 
 		charController.SimpleMove(newPosition);
+		//transform.Translate(newPosition*Time.deltaTime);
 	}
 
 	private void ClampXAxisRotationToValue(float value)
@@ -208,6 +215,7 @@ public class Player : MonoBehaviour, Agent
 		Vector3 newPosition = new Vector3();
 		if (Input.GetKey(KeyCode.W))
 		{
+			Debug.Log("Was here");
 			newPosition += Vector3.forward * speed;
 		}
 
@@ -226,6 +234,8 @@ public class Player : MonoBehaviour, Agent
 		}
 
 		charController.SimpleMove(newPosition);
+		//transform.Translate(newPosition*Time.deltaTime);
+		//rb.velocity = newPosition;
 	}
 
 }

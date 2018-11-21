@@ -210,7 +210,7 @@ public class AI : MonoBehaviour, Agent {
 				}
 			}
 		}
-		Debug.Log(message);
+		//Debug.Log(message);
 	}
 
 	void moveToClosestMiddlePoint()
